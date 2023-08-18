@@ -1,0 +1,93 @@
+.styled-table {
+    border-collapse: collapse;
+    margin: auto;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    width: 100%;
+    box-shadow: 0 0 20px rgpa(0, 0, 0, 0.15);
+    table-layout: fixed;
+    padding: 20px;
+}
+
+.styled-table th {
+   
+    vertical-align: bottom;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+.styled-table thead tr{
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td{
+    padding: 12 px 15 px;
+    white-space: nowrap;
+    border-right: 1px solid #dddddd;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.styled-table td {
+    height: 10px;
+    vertical-align: middle;
+    text-align: center;
+    
+  }
+
+.styled-table tbody tr{
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table th div {
+    display: block;
+    font-size: 0.8em;
+    color: #fff;
+  }
+
+  .styled-table th {
+    height: 70px;
+    vertical-align: bottom;
+    text-align: center;
+    vertical-align: middle;
+}
+  
+
+.styled-table tbody tr:nth-of-type(even){
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type{
+    border-bottom: 1px solid #009879;
+}
+
+/* CSS */
+.export-button-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  .btn {
+    border: none;
+    color: white;
+    padding: 5px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 5px;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+
+  .btn-edit{
+    background-color: #008cba;
+  }
+
+  .btn-delete{
+    background-color: #f44336;
+  }
