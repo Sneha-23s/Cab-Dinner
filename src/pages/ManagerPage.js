@@ -105,26 +105,26 @@ export default function ManagerPage() {
     }
   }, [])
 
+  //To get manager name(bhuvanesh) by his userid(balagar)
+  const man = Manager.name;///balagar
+  const [Managerdetails, setManagerdetails] = useState({});
   useEffect(() => {
-    if (user && Manager.localId) {
-      const managerId = Object.keys(user).find((id) => user[id].localId === Manager.localId);
-      setManager(prevManager => ({
-        ...prevManager,
-        managerId: managerId
-      }));
-      console.log(managerId);
-    }
-  }, [user, Manager.localId]);
+    const startCountRef2 = ref(fireDb, `Users/${man}`);
+    onValue(startCountRef2, (snapshot) => {
+      const userData = snapshot.val();
+      setManagerdetails(userData || {});
+    });
+  }, []);
+  const manid = Managerdetails.name;
+
   const logoutUser = () => {
     logout();
     navigate('/login')
   }
-  let managerid = null; 
-  let managername = null;
 
   return (
     <div>
-      <NavBar role="manager" managerId={managerid} logoutUser={logoutUser} />
+      <NavBar role="manager" managerId={man} logoutUser={logoutUser} />
       <div style={{ marginTop: "100px" }}>
         <table className="styled-table">
           <colgroup>
@@ -176,14 +176,8 @@ export default function ManagerPage() {
             {Object.keys(user).map((id, index) => {
 
               const userDetails = user[id];
-              if (userDetails.localId === Manager.localId) {
-                managerid = id;
-                managername = userDetails.name;
-              }
-              console.log(managerid);
-              console.log(managername)
               // Check if the user has the same managerName as the logged-in manager
-              if (userDetails.managerName === Manager.name) {
+              if (userDetails.managerName === manid) {
                 return (
 
                   <tr key={id}>
