@@ -18,8 +18,13 @@ export default function ManagerPage() {
   const [data, setData] = useState({});
   // info in users node
   const [user, setuser] = useState({});
-  // to get manager
+  // to get manager name,email,localid
   const [Manager, setManager] = useState({});
+  // to get manager user's data
+  const [Managerdetails, setManagerdetails] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+
+  
 
   const { id } = useParams();
 
@@ -38,6 +43,35 @@ export default function ManagerPage() {
       window.removeEventListener('popstate', handlePopstate);
     };
   }, []);
+
+  
+  useEffect(() => {
+    if (isAuthenticated()) {
+      UserDetailsApi().then((response) => {
+        setManager({
+          name: response.data.users[0].displayName,
+          email: response.data.users[0].email,
+          localId: response.data.users[0].localId,
+        })
+        setIsLoading(false);
+      })
+    }
+  }, [])
+
+  
+  //To get manager name(bhuvanesh) by his userid(balagar)
+  useEffect(() => {
+    if(Manager.name){
+      const startCountRef2 = ref(fireDb, `Users/${Manager.name}`);
+      onValue(startCountRef2, (snapshot) => {
+        const manData = snapshot.val();
+        setManagerdetails(manData || {});
+      });
+    }
+    }, [Manager.name]);
+    
+  const manid = Managerdetails.name;
+
 
   useEffect(() => {
     const startCountRef1 = ref(fireDb, 'Users/');
@@ -92,30 +126,6 @@ export default function ManagerPage() {
   // Get the dates of July 30 to August 4
   const datesOfNextWeek = getWorkingDaysWithDates();
 
-  useEffect(() => {
-    if (isAuthenticated()) {
-      UserDetailsApi().then((response) => {
-
-        setManager({
-          name: response.data.users[0].displayName,
-          email: response.data.users[0].email,
-          localId: response.data.users[0].localId,
-        })
-      })
-    }
-  }, [])
-
-  //To get manager name(bhuvanesh) by his userid(balagar)
-  const man = Manager.name;///balagar
-  const [Managerdetails, setManagerdetails] = useState({});
-  useEffect(() => {
-    const startCountRef2 = ref(fireDb, `Users/${man}`);
-    onValue(startCountRef2, (snapshot) => {
-      const userData = snapshot.val();
-      setManagerdetails(userData || {});
-    });
-  }, []);
-  const manid = Managerdetails.name;
 
   const logoutUser = () => {
     logout();
@@ -124,8 +134,11 @@ export default function ManagerPage() {
 
   return (
     <div>
-      <NavBar role="manager" managerId={man} logoutUser={logoutUser} />
+      <NavBar role="manager" managerId={Manager.name} logoutUser={logoutUser} />
       <div style={{ marginTop: "100px" }}>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
         <table className="styled-table">
           <colgroup>
             <col style={{ width: "50px" }} />
@@ -174,10 +187,10 @@ export default function ManagerPage() {
           </thead>
           <tbody>
             {Object.keys(user).map((id, index) => {
-
               const userDetails = user[id];
+              const managerunique=manid;
               // Check if the user has the same managerName as the logged-in manager
-              if (userDetails.managerName === manid) {
+              if (userDetails.managerName === managerunique) {
                 return (
 
                   <tr key={id}>
@@ -221,7 +234,7 @@ export default function ManagerPage() {
           </tbody>
 
         </table>
-
+      )}
       </div>
     </div>
   );
