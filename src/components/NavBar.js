@@ -20,7 +20,7 @@ export default function NavBar(props){
             </button>
             <div className="collapse navbar-collapse" id="navbarsExampleDefault">
                 <ul className="navbar-nav mr-auto"  >
-                    {!isAuthenticated()?<li><Link className="nav-link" to="/login" >Login</Link></li>:null}
+                    {/* {!isAuthenticated()?<li><Link className="nav-link" to="/login" >Login</Link></li>:null} */}
                     {/* {isAuthenticated() && role === 'admin' ? <li className="nav-item"><Link className="nav-link" to="#">View Details</Link></li>:null} */}
                     {/* {isAuthenticated() && role === 'admin' ? <li className="nav-item"><Link className="nav-link" to="/register">Register</Link></li>:null} */}
                     {/* {isAuthenticated() && role === 'manager' ? <li className="nav-item"><Link className="nav-link" to="#">Reportees Details</Link></li>:null} */}

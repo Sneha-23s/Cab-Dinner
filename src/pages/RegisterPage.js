@@ -10,6 +10,7 @@ import { fireDb } from '../firebase/firebase';
 import { ref, set } from 'firebase/database';
 import { useNavigate } from 'react-router-dom';
 import { logout, isAuthenticated } from "../services/Auth"
+import bg from './bg.css';
 
 export default function RegisterPage() {
 
@@ -259,12 +260,12 @@ export default function RegisterPage() {
                   </label>
                   <select className="form-control" onChange={handleInput} name="teamName" value={inputs.teamName}>
                     <option value=""></option>
-                    <option value="admin">F&B</option>
-                    <option value="manager">R&D</option>
-                    <option value="employee">SRE</option>
-                    <option value="employee">Customer Support Team</option>
-                    <option value="employee">Customer success Team</option>
-                    <option value="employee">CEP</option>
+                    <option value="F & B">F&B</option>
+                    <option value="R & D">R&D</option>
+                    <option value="SRE">SRE</option>
+                    <option value="Customer Support Team">Customer Support Team</option>
+                    <option value="Customer success Team">Customer success Team</option>
+                    <option value="CEP">CEP</option>
                   </select>
                   {/* <input type="text" className="form-control" onChange={handleInput} name="teamName" id="teamName" /> */}
                   {errors.teamName.required ? (
@@ -278,11 +279,11 @@ export default function RegisterPage() {
                   </label>
                   <select className="form-control" onChange={handleInput} name="managerName" value={inputs.managerName}>
                     <option value=""></option>
-                    <option value="admin">Bhuvaneshkumar Alagar</option>
-                    <option value="manager">Rajesh Agrawal</option>
-                    <option value="employee">Kalaimahal Shanmuganatha</option>
-                    <option value="employee">Rajasekar Arumugam</option>
-                    <option value="employee">Sachin Kumar</option>
+                    <option value="Bhuvaneshkumar Alagar">Bhuvaneshkumar Alagar</option>
+                    <option value="Rajesh Agrawal">Rajesh Agrawal</option>
+                    <option value="Kalaimahal Shanmuganatha">Kalaimahal Shanmuganatha</option>
+                    <option value="Rajasekar Arumugam">Rajasekar Arumugam</option>
+                    <option value="Sachin Kumar">Sachin Kumar</option>
                   </select>
                   {/* <input type="text" className="form-control" onChange={handleInput} name="managerName" id="managerName" /> */}
                   {errors.managerName.required ? (

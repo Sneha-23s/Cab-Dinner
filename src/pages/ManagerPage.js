@@ -24,7 +24,7 @@ export default function ManagerPage() {
   const [Managerdetails, setManagerdetails] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
-  
+
 
   const { id } = useParams();
 
@@ -44,7 +44,7 @@ export default function ManagerPage() {
   //   };
   // }, []);
 
-  
+
   useEffect(() => {
     if (isAuthenticated()) {
       UserDetailsApi().then((response) => {
@@ -58,18 +58,18 @@ export default function ManagerPage() {
     }
   }, [])
 
-  
+
   //To get manager name(bhuvanesh) by his userid(balagar)
   useEffect(() => {
-    if(Manager.name){
+    if (Manager.name) {
       const startCountRef2 = ref(fireDb, `Users/${Manager.name}`);
       onValue(startCountRef2, (snapshot) => {
         const manData = snapshot.val();
         setManagerdetails(manData || {});
       });
     }
-    }, [Manager.name]);
-    
+  }, [Manager.name]);
+
   const manid = Managerdetails.name;
 
 
@@ -126,7 +126,7 @@ export default function ManagerPage() {
   // Get the dates of July 30 to August 4
   const datesOfNextWeek = getWorkingDaysWithDates();
 
-
+  let serialno = 1;
   const logoutUser = () => {
     logout();
     navigate('/login')
@@ -136,105 +136,111 @@ export default function ManagerPage() {
     <div>
       <NavBar role="manager" managerId={Manager.name} logoutUser={logoutUser} />
       <div style={{ marginTop: "100px" }}>
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        <table className="styled-table">
-          <colgroup>
-            <col style={{ width: "50px" }} />
-            <col style={{ width: "100px" }} />
-            <col style={{ width: "100px" }} />
-            <col style={{ width: "100px" }} />
-            <col style={{ width: "60px" }} />
-            {datesOfNextWeek.map((_, index) => (
-              <col key={index} style={{ width: "30px" }} />
-            ))}
-            {datesOfNextWeek.map((_, index) => (
-              <col key={index} style={{ width: "30px" }} />
-            ))}
-            <col style={{ width: "80px" }} />
-            <col style={{ width: "200px" }} />
-            <col style={{ width: "100px" }} />
-          </colgroup>
-          <thead>
-            <tr>
-              <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>No</th>
-              <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Name</th>
-              <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Manager</th>
-              <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Product Line</th>
-              <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Shift Timings</th>
-              <th style={{ textAlign: "center", verticalAlign: "middle" }} colSpan={datesOfNextWeek.length}>Need Cab</th>
-              <th style={{ textAlign: "center", verticalAlign: "middle" }} colSpan={datesOfNextWeek.length}>Need Dinner</th>
-              <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Contact No</th>
-              <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Address</th>
-              <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Action</th>
-            </tr>
-            <tr>
-              {/* Render "Yes" for each date in the "Need Cab" row */}
-              {datesOfNextWeek.map((dateInfo, index) => (
-                <th key={index} style={{ textAlign: "center", verticalAlign: "middle", height: "30px" }}>
-                  <div>{`${dateInfo.month}-${dateInfo.date} `}</div>
-                  <div>{dateInfo.day}</div>
-                </th>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <table className="styled-table">
+            <colgroup>
+              <col style={{ width: "50px" }} />
+              <col style={{ width: "100px" }} />
+              <col style={{ width: "100px" }} />
+              <col style={{ width: "100px" }} />
+              <col style={{ width: "60px" }} />
+              {datesOfNextWeek.map((_, index) => (
+                <col key={index} style={{ width: "30px" }} />
               ))}
-              {datesOfNextWeek.map((dateInfo, index) => (
-                <th key={index} style={{ textAlign: "center", verticalAlign: "middle", height: "30px" }}>
-                  <div>{`${dateInfo.month}-${dateInfo.date} `}</div>
-                  <div>{dateInfo.day}</div>
-                </th>
+              {datesOfNextWeek.map((_, index) => (
+                <col key={index} style={{ width: "30px" }} />
               ))}
-            </tr>
-          </thead>
-          <tbody>
-            {Object.keys(user).map((id, index) => {
-              const userDetails = user[id];
-              const managerunique=manid;
-              // Check if the user has the same managerName as the logged-in manager
-              if (userDetails.managerName === managerunique) {
-                return (
+              <col style={{ width: "80px" }} />
+              <col style={{ width: "200px" }} />
+              <col style={{ width: "100px" }} />
+            </colgroup>
+            <thead>
+              <tr>
+                <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>No</th>
+                <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Name</th>
+                <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Manager</th>
+                <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Product Line</th>
+                <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Shift Timings</th>
+                <th style={{ textAlign: "center", verticalAlign: "middle" }} colSpan={datesOfNextWeek.length}>Need Cab</th>
+                <th style={{ textAlign: "center", verticalAlign: "middle" }} colSpan={datesOfNextWeek.length}>Need Dinner</th>
+                <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Contact No</th>
+                <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Address</th>
+                <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Action</th>
+              </tr>
+              <tr>
+                {/* Render "Yes" for each date in the "Need Cab" row */}
+                {datesOfNextWeek.map((dateInfo, index) => (
+                  <th key={index} style={{ textAlign: "center", verticalAlign: "middle", height: "30px" }}>
+                    <div>{`${dateInfo.month}-${dateInfo.date} `}</div>
+                    <div>{dateInfo.day}</div>
+                  </th>
+                ))}
+                {datesOfNextWeek.map((dateInfo, index) => (
+                  <th key={index} style={{ textAlign: "center", verticalAlign: "middle", height: "30px" }}>
+                    <div>{`${dateInfo.month}-${dateInfo.date} `}</div>
+                    <div>{dateInfo.day}</div>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {Object.keys(user).map((id, index) => {
+                const userDetails = user[id];
+                const managerunique = manid;
+                // Check if the user has the same managerName as the logged-in manager
+                if (userDetails.managerName === managerunique) {
+                  const currentSerialNo = serialno;
+                  serialno++;
 
-                  <tr key={id}>
-                    <th scope="row">{index + 1}</th>
-                    <td>{user[id].name}</td>
-                    <td>{user[id].managerName}</td>
-                    <td>{user[id].teamName}</td>
-                    <td>{data[id]?.shiftTimings ?? "-"}</td>
-                    {/* <td className="center-align">{data[id]?.isCabRequirement === true ? "Yes" : data[id]?.isCabRequirement === false ? "No" : "-"}</td> */}
-                    {datesOfNextWeek.map((dateInfo, index) => (
-                      <td key={index} style={{ textAlign: "center" }}>
-                        {data[id]?.cabWorkingDays?.includes(dateInfo.day) === true
-                          ? "Yes"
-                          : data[id]?.cabWorkingDays?.includes(dateInfo.day) === false
-                            ? "No"
-                            : "-"}
-                      </td>
-                    ))}
-                    {/* <td className="center-align">{data[id]?.isDinnerRequired === true ? "Yes" : data[id]?.isDinnerRequirement === false ? "No" : "-"}</td> */}
-                    {datesOfNextWeek.map((dateInfo, index) => (
-                      <td key={index} style={{ textAlign: "center" }}>
-                        {/* Render "Yes" or "No" based on the dinner requirement for the specific date */}
-                        {data[id]?.dinnerWorkingDays.includes(dateInfo.day) === true
-                          ? "Yes"
-                          : data[id]?.dinnerWorkingDays?.includes(dateInfo.day) === false
-                            ? "No"
-                            : "-"}
-                      </td>
-                    ))}
-                    <td>{data[id]?.contactNumber ?? "-"}</td>
-                    <td>{data[id]?.address}</td>
-                    <td>
-                      <Link to={`/employee/${id}-edit`}>
-                        <button className='btn btn-edit'>Edit</button>
-                      </Link>
-                    </td>
-                  </tr>
-                )
-              }
-            })}
-          </tbody>
+                  return (
 
-        </table>
-      )}
+                    <tr key={id}>
+                      {/* <th scope="row">{index + 1}</th> */}
+                      <th scope="row">{currentSerialNo}</th>
+
+                      <td>{user[id].name}</td>
+                      <td>{user[id].managerName}</td>
+                      <td>{user[id].teamName}</td>
+                      <td>{data[id]?.shiftTimings ?? "-"}</td>
+                      {/* <td className="center-align">{data[id]?.isCabRequirement === true ? "Yes" : data[id]?.isCabRequirement === false ? "No" : "-"}</td> */}
+                      {datesOfNextWeek.map((dateInfo, index) => (
+                        <td key={index} style={{ textAlign: "center" }}>
+                          {data[id]?.cabWorkingDays?.includes(dateInfo.day) === true
+                            ? "Yes"
+                            : data[id]?.cabWorkingDays?.includes(dateInfo.day) === false
+                              ? "No"
+                              : "-"}
+                        </td>
+                      ))}
+                      {/* <td className="center-align">{data[id]?.isDinnerRequired === true ? "Yes" : data[id]?.isDinnerRequirement === false ? "No" : "-"}</td> */}
+                      {datesOfNextWeek.map((dateInfo, index) => (
+                        <td key={index} style={{ textAlign: "center" }}>
+                          {/* Render "Yes" or "No" based on the dinner requirement for the specific date */}
+                          {data[id]?.dinnerWorkingDays.includes(dateInfo.day) === true
+                            ? "Yes"
+                            : data[id]?.dinnerWorkingDays?.includes(dateInfo.day) === false
+                              ? "No"
+                              : "-"}
+                        </td>
+                      ))}
+                      <td>{data[id]?.contactNumber ?? "-"}</td>
+                      <td>{data[id]?.address}</td>
+                      <td>
+                        <Link to={`/employee/${id}-edit`}>
+                          <button className='btn btn-edit'>Edit</button>
+                        </Link>
+                      </td>
+                    </tr>
+
+                  );
+                }
+              })}
+            </tbody>
+
+          </table>
+        )}
       </div>
     </div>
   );

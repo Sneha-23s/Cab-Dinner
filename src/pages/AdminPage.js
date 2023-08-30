@@ -23,24 +23,24 @@ export default function AdminPage() {
   const [nextdata, setNextData] = useState({});
   const [showNextWeek, setShowNextWeek] = useState(false);
 
-//  //For back button
-//   useEffect(() => {
-//     const handlePopstate = () => {
-//       // Logout the user when the popstate event occurs (browser back/forward buttons)
-//       logout();
-//       window.location.href = '/login'; // Redirect to login page
-//     };
+  //For back button
+  useEffect(() => {
+    const handlePopstate = () => {
+      // Logout the user when the popstate event occurs (browser back/forward buttons)
+      logout();
+      window.location.href = '/login'; // Redirect to login page
+    };
 
-//     // Add the event listener for the popstate event
-//     window.addEventListener('popstate', handlePopstate);
+    // Add the event listener for the popstate event
+    window.addEventListener('popstate', handlePopstate);
 
-//     // Clean up the event listener when the component is unmounted
-//     return () => {
-//       window.removeEventListener('popstate', handlePopstate);
-//     };
-//   }, []);
+    // Clean up the event listener when the component is unmounted
+    return () => {
+      window.removeEventListener('popstate', handlePopstate);
+    };
+  }, []);
 
-//To get user deatils
+  //To get user deatils
   useEffect(() => {
     const startCountRef1 = ref(fireDb, 'Users/');
     onValue(startCountRef1, (snapshot) => {
@@ -49,7 +49,7 @@ export default function AdminPage() {
     });
   }, [])
 
-//To get current week details
+  //To get current week details
   useEffect(() => {
     const startCountRef = ref(fireDb, 'Details/');
     onValue(startCountRef, (snapshot) => {
@@ -58,7 +58,7 @@ export default function AdminPage() {
     });
   }, [])
 
-//To get next week details
+  //To get next week details
   useEffect(() => {
     const startCountRef2 = ref(fireDb, 'NextWeekDetails/');
     onValue(startCountRef2, (snapshot) => {
@@ -168,12 +168,17 @@ export default function AdminPage() {
         URL.revokeObjectURL(exportLinkRef.current.href);
       }
 
+      // Create a filename based on the desired format
+      const currentDate = new Date();
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const filename = `Admin_${monthNames[currentDate.getMonth()]}-${currentDate.getDate()}`;
+
       // Create a temporary URL for the Blob and attach it to the download link
       const url = URL.createObjectURL(blob);
       exportLinkRef.current.href = url;
 
       // Set the filename for the download link
-      exportLinkRef.current.download = 'admin_table.xlsx';
+      exportLinkRef.current.download = `${filename}.xlsx`;
 
       // Trigger the click event on the download link to show the "Save As" dialog box
       exportLinkRef.current.click();
@@ -284,6 +289,7 @@ export default function AdminPage() {
     logout();
     navigate('/login')
   }
+  let serialno=1;
 
   return (
     <div>
@@ -309,7 +315,7 @@ export default function AdminPage() {
               ))}
               <col style={{ width: "50px" }} />
               <col style={{ width: "200px" }} />
-              <col style={{ width: "100px" }} />
+              {/* <col style={{ width: "100px" }} /> */}
             </colgroup>
 
             <thead >
@@ -323,7 +329,7 @@ export default function AdminPage() {
                 <th style={{ textAlign: "center", verticalAlign: "middle" }} colSpan={datesOfNextWeek.length}>Need Dinner</th>
                 <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Contact No</th>
                 <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Address</th>
-                <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Action</th>
+                {/* <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Action</th> */}
               </tr>
               <tr>
                 {showNextWeek ? (
@@ -366,71 +372,76 @@ export default function AdminPage() {
 
             <tbody>
               {Object.keys(user).map((id, index) => {
-                return (
-                  <tr key={id}>
-                    <th scope="row">{index + 1}</th>
-                    <td>{user[id].name}</td>
-                    <td>{user[id].managerName}</td>
-                    <td>{user[id].teamName}</td>
-                    <td>{showNextWeek ? nextdata[id]?.shiftTimings ?? "-" : data[id]?.shiftTimings ?? "-"}</td>
+                const userDetails = user[id];
+                if (userDetails.role !== "admin") {
+                  const currentSerialNo = serialno;
+                  serialno++;
+                  return (
+                    <tr key={id}>
+                      <th scope="row">{currentSerialNo}</th>
+                      <td>{user[id].name}</td>
+                      <td>{user[id].managerName}</td>
+                      <td>{user[id].teamName}</td>
+                      <td>{showNextWeek ? nextdata[id]?.shiftTimings ?? "-" : data[id]?.shiftTimings ?? "-"}</td>
 
-                    {showNextWeek
-                      ? upcomingWeekWorkingDaysWithDates.map((dateInfo, index) => (
-                        <td key={index} style={{ textAlign: "center" }}>
-                          {/* Render the appropriate "Yes" or "No" value */}
-                          {nextdata[id]?.cabWorkingDays?.includes(dateInfo.day) === true
-                            ? "Yes"
-                            : nextdata[id]?.cabWorkingDays?.includes(dateInfo.day) === false
-                              ? "No"
-                              : "-"}
-                        </td>
-                      ))
-                      : datesOfNextWeek.map((dateInfo, index) => (
-                        <td key={index} style={{ textAlign: "center" }}>
-                          {/* Render the appropriate "Yes" or "No" value */}
-                          {data[id]?.cabWorkingDays?.includes(dateInfo.day) === true
-                            ? "Yes"
-                            : data[id]?.cabWorkingDays?.includes(dateInfo.day) === false
-                              ? "No"
-                              : "-"}
-                        </td>
-                      ))
-                    }
+                      {showNextWeek
+                        ? upcomingWeekWorkingDaysWithDates.map((dateInfo, index) => (
+                          <td key={index} style={{ textAlign: "center" }}>
+                            {/* Render the appropriate "Yes" or "No" value */}
+                            {nextdata[id]?.cabWorkingDays?.includes(dateInfo.day) === true
+                              ? "Yes"
+                              : nextdata[id]?.cabWorkingDays?.includes(dateInfo.day) === false
+                                ? "No"
+                                : "-"}
+                          </td>
+                        ))
+                        : datesOfNextWeek.map((dateInfo, index) => (
+                          <td key={index} style={{ textAlign: "center" }}>
+                            {/* Render the appropriate "Yes" or "No" value */}
+                            {data[id]?.cabWorkingDays?.includes(dateInfo.day) === true
+                              ? "Yes"
+                              : data[id]?.cabWorkingDays?.includes(dateInfo.day) === false
+                                ? "No"
+                                : "-"}
+                          </td>
+                        ))
+                      }
 
-                    {showNextWeek
-                      ? upcomingWeekWorkingDaysWithDates.map((dateInfo, index) => (
-                        <td key={index} style={{ textAlign: "center" }}>
-                          {/* Render "Yes" or "No" based on the dinner requirement */}
-                          {nextdata[id]?.dinnerWorkingDays?.includes(dateInfo.day) === true
-                            ? "Yes"
-                            : nextdata[id]?.dinnerWorkingDays?.includes(dateInfo.day) === false
-                              ? "No"
-                              : "-"}
-                        </td>
-                      ))
-                      : datesOfNextWeek.map((dateInfo, index) => (
-                        <td key={index} style={{ textAlign: "center" }}>
-                          {/* Render "Yes" or "No" based on the dinner requirement */}
-                          {data[id]?.dinnerWorkingDays?.includes(dateInfo.day) === true
-                            ? "Yes"
-                            : data[id]?.dinnerWorkingDays?.includes(dateInfo.day) === false
-                              ? "No"
-                              : "-"}
-                        </td>
-                      ))
-                    }
+                      {showNextWeek
+                        ? upcomingWeekWorkingDaysWithDates.map((dateInfo, index) => (
+                          <td key={index} style={{ textAlign: "center" }}>
+                            {/* Render "Yes" or "No" based on the dinner requirement */}
+                            {nextdata[id]?.dinnerWorkingDays?.includes(dateInfo.day) === true
+                              ? "Yes"
+                              : nextdata[id]?.dinnerWorkingDays?.includes(dateInfo.day) === false
+                                ? "No"
+                                : "-"}
+                          </td>
+                        ))
+                        : datesOfNextWeek.map((dateInfo, index) => (
+                          <td key={index} style={{ textAlign: "center" }}>
+                            {/* Render "Yes" or "No" based on the dinner requirement */}
+                            {data[id]?.dinnerWorkingDays?.includes(dateInfo.day) === true
+                              ? "Yes"
+                              : data[id]?.dinnerWorkingDays?.includes(dateInfo.day) === false
+                                ? "No"
+                                : "-"}
+                          </td>
+                        ))
+                      }
 
-                    <td>{showNextWeek ? nextdata[id]?.contactNumber ?? "-" : data[id]?.contactNumber ?? "-"}</td>
-                    <td>{showNextWeek ? nextdata[id]?.address : data[id]?.address}</td>
+                      <td>{showNextWeek ? nextdata[id]?.contactNumber ?? "-" : data[id]?.contactNumber ?? "-"}</td>
+                      <td>{showNextWeek ? nextdata[id]?.address : data[id]?.address}</td>
 
-                    <td>
+                      {/* <td>
                       <Link>
                         <button className='btn btn-delete' onClick={() => onDelete(id)}>Delete</button>
                       </Link>
-                    </td>
+                    </td> */}
 
-                  </tr>
-                )
+                    </tr>
+                  )
+                }
               })}
             </tbody>
           </table>

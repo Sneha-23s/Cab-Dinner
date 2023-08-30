@@ -32,7 +32,7 @@
     margin-bottom: 5px;
   }
   
-  button[type='submit'] {
+  /* button[type='submit'] {
     display: block;
     width: 100%;
     padding: 10px;
@@ -45,7 +45,7 @@
   
   button[type='submit']:hover {
     background-color: #45a049;
-  }
+  } */
   
   .response-container {
     text-align: center;
@@ -56,7 +56,7 @@
     margin-top: 20px;
   }
 
-  .btn {
+  /* .btn {
     padding: 10px 20px;
     font-size: 16px;
     border: none;
@@ -65,12 +65,21 @@
     background-color: #007bff;
     color: white;
     margin-right: 10px;
-  }
+  } */
   
-  .btn:hover {
+  /* .btn:hover {
     background-color: #0056b3;
-  }
+  } */
   
   .next-week-button {
     text-decoration: none; /* Remove default link underline */
   }
+
+  .employee-sec{padding: 50px 30px; position:relative;}
+.employee-sec h2{margin-bottom:30px; font-weight:800; font-size:30px; color: #0069c0;}
+.employee-sec h2:after{content:" "; width:100px; height:5px; background:#6ec6ff; display:block; margin-top:20px; border-radius:3px; margin-left:auto;margin-right:auto}
+
+.btn-submit{background: #0069c0; color:#fff; font-weight:600;
+  display: block;
+  width: 100%;
+  padding: 10px;}

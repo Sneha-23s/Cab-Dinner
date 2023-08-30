@@ -24,9 +24,9 @@ const EmployeePage = () => {
   const { id } = useParams();
   const [existuserDetails, setExistuserDetails] = useState({});
   const [nextweekuserDetails, setNextweekuserDetails] = useState({});
-
-   // info in users node
-   const [useraddno, setuseraddno] = useState({});
+  const [userdetails, setNextuserDetails] = useState({});
+  // info in users node
+  const [useraddno, setuseraddno] = useState({});
 
   // useEffect(() => {
   //   const handlePopstate = () => {
@@ -43,10 +43,9 @@ const EmployeePage = () => {
   //     window.removeEventListener('popstate', handlePopstate);
   //   };
   // }, []);
-  
+
   const location = useLocation();
- 
-  console.log(location.pathname);
+
   useEffect(() => {
     const startCountRef1 = ref(fireDb, `Users/${id}`);
     onValue(startCountRef1, (snapshot) => {
@@ -302,14 +301,14 @@ const EmployeePage = () => {
   };
 
   // Check if you are on the desired page where you want the refresh behavior
-if (window.location.pathname === `/employee/${id}-edit` || `/employee/${id}`) {
+  if (window.location.pathname === `/employee/${id}-edit` || `/employee/${id}`) {
     // Add an event listener to the popstate event (triggered when the user navigates back or forward)
-    window.onpopstate = function(event) {
-        console.log('popstate event triggered'); // Add this line to log the event
-        // Reload the page to ensure the content is up-to-date
-        window.location.reload();
+    window.onpopstate = function (event) {
+      console.log('popstate event triggered'); // Add this line to log the event
+      // Reload the page to ensure the content is up-to-date
+      window.location.reload();
     };
-}
+  }
 
   // Function to get upcoming week's working days with dates
   const getUpcomingWeekWorkingDaysWithDates = () => {
@@ -509,12 +508,12 @@ if (window.location.pathname === `/employee/${id}-edit` || `/employee/${id}`) {
 
   if (hasSubmitted) {
     return (
-      <div className={`background-image-container ${bg.bgClass}`}>
+      <div>
         <NavBar role="employee" logoutUser={logoutUser} />
         <div className="employee-page">
           <div>
             <h5>The Response has been already Submitted for this week</h5>
-            </div><br></br><div>
+          </div><br></br><div>
             {/* <Link to={`/employee/${id}/edit`}> */}
             <button onClick={handleEditCurrentWeekDetails} className="btn btn-primary">
               Edit Current Week Details
@@ -530,196 +529,200 @@ if (window.location.pathname === `/employee/${id}-edit` || `/employee/${id}`) {
       </div>
     )
   }
-  else if (!hasSubmitted ) {
+  else if (!hasSubmitted) {
     return (
       <div>
         <NavBar role="employee" logoutUser={logoutUser} />
-        <div className="employee-page">
-          <h1>Employee Form</h1>
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="shiftTimings">Shift Timings</label>
-              <select
-                className="form-control"
-                id="shiftTimings"
-                value={shiftTimings}
-                onChange={handleShiftTimingsChange}
-                required
-              >
-                <option value="">Select Shift Timings</option>
-                <option value="6 AM - 3 PM">6 AM to 3 PM</option>
-                <option value="1 PM - 10 PM">1 PM to 10 PM</option>
-                <option value="5 PM - 2 PM">5 PM to 2 AM</option>
-                <option value="9 PM - 6 PM">9 PM to 6 AM</option>
-              </select>
-              {errors.shiftTimings.required ? (
-                <span className="text-danger">shiftTimings is required.</span>
-              ) : null}
-            </div>
-            <div className="form-group">
-              <p>Cab Required:</p>
-              <label>
-                <input
-                  type="radio"
-                  name="isCabRequirement"
-                  value="required"
-                  //checked={isCabRequirement === 'required'}
-                  onChange={handleCabRequirementChange}
-                />{' '}
-                Required
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="isCabRequirement"
-                  value="notRequired"
-                  //checked={isCabRequirement === 'notRequired'}
-                  onChange={handleCabRequirementChange}
-                //checked={isCabRequirement === 'notRequired'} 
-                />{' '}
-                Not Required
-              </label>
-              {errors.isCabRequirement.required ? (
-                <span className="text-danger">required.</span>
-              ) : null}
-            </div>
-            {isCabRequirement && (
+
+        <div className="employee-page" >
+          <div className="col employee-sec">
+            <h2 className='text-center'>Form of {useraddno.name}</h2>
+            <form onSubmit={handleSubmit}>
               <div className="form-group">
-                <p>Select Working Days for Cab:</p>
-                {shownextweekdate ? (
-                  upcomingWeekWorkingDaysWithDates.map((day) => (
-                    <label key={day.day}>
-                      <input
-                        type="checkbox"
-                        name={day.day}
-                        checked={cabWorkingDays.includes(day.day)}
-                        onChange={handleCabWorkingDaysChange}
-                        disabled={!isDateEditable(day)}
-                      />
-                      {day.day}, {day.date} {day.month}
-                    </label>
-                  ))
-                ) : (
-                  workingDaysWithDates.map((day) => (
-                    <label key={day.day}>
-                      <input
-                        type="checkbox"
-                        name={day.day}
-                        checked={cabWorkingDays.includes(day.day)}
-                        onChange={handleCabWorkingDaysChange}
-                        disabled={!isDateEditable(day)}
-                      />
-                      {day.day}, {day.date} {day.month}
-                    </label>
-                  ))
-                )}
-                {errors.cabWorkingDays.required ? (
-                  <span className="text-danger">Please select at least one working day for Cab..</span>
+                <label htmlFor="shiftTimings">Shift Timings</label>
+                <select
+                  className="form-control"
+                  id="shiftTimings"
+                  value={shiftTimings}
+                  onChange={handleShiftTimingsChange}
+                  required
+                >
+                  <option value="">Select Shift Timings</option>
+                  <option value="6 AM - 3 PM">6 AM to 3 PM</option>
+                  <option value="1 PM - 10 PM">1 PM to 10 PM</option>
+                  <option value="5 PM - 2 PM">5 PM to 2 AM</option>
+                  <option value="9 PM - 6 PM">9 PM to 6 AM</option>
+                </select>
+                {errors.shiftTimings.required ? (
+                  <span className="text-danger">shiftTimings is required.</span>
                 ) : null}
               </div>
-            )}
-            <div className="form-group">
-              <p>Dinner Required</p>
-              <label>
-                <input
-                  type="radio"
-                  name="isDinnerRequired"
-                  value="required"
-                  onChange={handleDinnerRequirementChange}
-                />{' '}
-                Required
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="isDinnerRequired"
-                  value="notRequired"
-                  onChange={handleDinnerRequirementChange}
-                />{' '}
-                Not Required
-              </label>
-              {errors.isDinnerRequired.required ? (
-                <span className="text-danger">required.</span>
-              ) : null}
-            </div>
-            {isDinnerRequired && (
               <div className="form-group">
-                <p>Select Working Days for Dinner:</p>
-                {shownextweekdate ? (
-                  upcomingWeekWorkingDaysWithDates.map((day) => (
-                    <label key={day.day}>
-                      <input
-                        type="checkbox"
-                        name={day.day}
-                        checked={dinnerWorkingDays.includes(day.day)}
-                        onChange={handleDinnerWorkingDaysChange}
-                        disabled={!isDateEditable(day)}
-                      />
-                      {day.day}, {day.date} {day.month}
-                    </label>
-                  ))
-                ) : (
-                  workingDaysWithDates.map((day) => (
-                    <label key={day.day}>
-                      <input
-                        type="checkbox"
-                        name={day.day}
-                        checked={dinnerWorkingDays.includes(day.day)}
-                        onChange={handleDinnerWorkingDaysChange}
-                        disabled={!isDateEditable(day)}
-                      />
-                      {day.day}, {day.date} {day.month}
-                    </label>
-                  ))
-                )}
-                {errors.dinnerWorkingDays.required ? (
-                  <span className="text-danger">Please select at least one working day for Cab..</span>
+                <p>Cab Required:</p>
+                <label>
+                  <input
+                    type="radio"
+                    name="isCabRequirement"
+                    value="required"
+                    //checked={isCabRequirement === 'required'}
+                    onChange={handleCabRequirementChange}
+                  />{' '}
+                  Required
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="isCabRequirement"
+                    value="notRequired"
+                    //checked={isCabRequirement === 'notRequired'}
+                    onChange={handleCabRequirementChange}
+                  //checked={isCabRequirement === 'notRequired'} 
+                  />{' '}
+                  Not Required
+                </label>
+                {errors.isCabRequirement.required ? (
+                  <span className="text-danger">required.</span>
                 ) : null}
               </div>
-            )}
-            <div className="form-group">
-              <label htmlFor="address">Address</label>
-              <input
-                type="text"
-                className="form-control"
-                id="address"
-                value={address}
-                onChange={handlAddressChange}
-              />
-              {errors.address.required ? (
-                <span className="text-danger">Address is required.</span>
-              ) : null}
-            </div>
-            <div className="form-group">
-              <label htmlFor="contactNumber">Contact Number</label>
-              <input
-                type="text"
-                isDateEditable="true"
-                className="form-control"
-                id="contactNumber"
-                value={contactNumber}
-                onChange={handleContactNumberChange}
-              />
-              {errors.contactNumber.required ? (
-                <span className="text-danger">Contact No is required.</span>
-              ) : errors.contactNumber.invalidNumber ? (
-                <span className="text-danger">Contact No should contain only numbers.</span>
-              ) : errors.contactNumber.invalidLength ? (
-                <span className="text-danger">Contact No should contain exactly 10 digits.</span>
-              ) : null}
-            </div>
-            <div className="form-group">{loading ? (
-              <div className="text-center">
-                <div className="spinner-border text-primary " role="status">
-                  <span className="sr-only">Loading...</span>
+              {isCabRequirement && (
+                <div className="form-group">
+                  <p>Select Working Days for Cab:</p>
+                  {shownextweekdate ? (
+                    upcomingWeekWorkingDaysWithDates.map((day) => (
+                      <label key={day.day}>
+                        <input
+                          type="checkbox"
+                          name={day.day}
+                          checked={cabWorkingDays.includes(day.day)}
+                          onChange={handleCabWorkingDaysChange}
+                          disabled={!isDateEditable(day)}
+                        />
+                        {day.day}, {day.date} {day.month}
+                      </label>
+                    ))
+                  ) : (
+                    workingDaysWithDates.map((day) => (
+                      <label key={day.day}>
+                        <input
+                          type="checkbox"
+                          name={day.day}
+                          checked={cabWorkingDays.includes(day.day)}
+                          onChange={handleCabWorkingDaysChange}
+                          disabled={!isDateEditable(day)}
+                        />
+                        {day.day}, {day.date} {day.month}
+                      </label>
+                    ))
+                  )}
+                  {errors.cabWorkingDays.required ? (
+                    <span className="text-danger">Please select at least one working day for Cab..</span>
+                  ) : null}
                 </div>
+              )}
+              <div className="form-group">
+                <p>Dinner Required</p>
+                <label>
+                  <input
+                    type="radio"
+                    name="isDinnerRequired"
+                    value="required"
+                    onChange={handleDinnerRequirementChange}
+                  />{' '}
+                  Required
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="isDinnerRequired"
+                    value="notRequired"
+                    onChange={handleDinnerRequirementChange}
+                  />{' '}
+                  Not Required
+                </label>
+                {errors.isDinnerRequired.required ? (
+                  <span className="text-danger">required.</span>
+                ) : null}
               </div>
-            ) : null}
-              <button type="submit" className="btn btn-primary">
-                {buttonText}
-              </button>
-            </div>
-          </form>
+              {isDinnerRequired && (
+                <div className="form-group">
+                  <p>Select Working Days for Dinner:</p>
+                  {shownextweekdate ? (
+                    upcomingWeekWorkingDaysWithDates.map((day) => (
+                      <label key={day.day}>
+                        <input
+                          type="checkbox"
+                          name={day.day}
+                          checked={dinnerWorkingDays.includes(day.day)}
+                          onChange={handleDinnerWorkingDaysChange}
+                          disabled={!isDateEditable(day)}
+                        />
+                        {day.day}, {day.date} {day.month}
+                      </label>
+                    ))
+                  ) : (
+                    workingDaysWithDates.map((day) => (
+                      <label key={day.day}>
+                        <input
+                          type="checkbox"
+                          name={day.day}
+                          checked={dinnerWorkingDays.includes(day.day)}
+                          onChange={handleDinnerWorkingDaysChange}
+                          disabled={!isDateEditable(day)}
+                        />
+                        {day.day}, {day.date} {day.month}
+                      </label>
+                    ))
+                  )}
+                  {errors.dinnerWorkingDays.required ? (
+                    <span className="text-danger">Please select at least one working day for Cab..</span>
+                  ) : null}
+                </div>
+              )}
+              <div className="form-group">
+                <label htmlFor="address">Address</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="address"
+                  value={address}
+                  onChange={handlAddressChange}
+                />
+                {errors.address.required ? (
+                  <span className="text-danger">Address is required.</span>
+                ) : null}
+              </div>
+              <div className="form-group">
+                <label htmlFor="contactNumber">Contact Number</label>
+                <input
+                  type="text"
+                  isDateEditable="true"
+                  className="form-control"
+                  id="contactNumber"
+                  value={contactNumber}
+                  onChange={handleContactNumberChange}
+                />
+                {errors.contactNumber.required ? (
+                  <span className="text-danger">Contact No is required.</span>
+                ) : errors.contactNumber.invalidNumber ? (
+                  <span className="text-danger">Contact No should contain only numbers.</span>
+                ) : errors.contactNumber.invalidLength ? (
+                  <span className="text-danger">Contact No should contain exactly 10 digits.</span>
+                ) : null}
+              </div>
+              <div className="form-group">{loading ? (
+                <div className="text-center">
+                  <div className="spinner-border text-primary " role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                </div>
+              ) : null}
+                <button type="submit" className="btn btn-submit float-center">
+                {/* "btn btn-login float-right" */}
+                  {buttonText}
+                </button>
+              </div>
+            </form>
+          </div>
         </div >
       </div >
     )

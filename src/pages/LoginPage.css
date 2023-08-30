@@ -8,7 +8,8 @@
     height: 50px; /* Adjust the height as per your preference */
   }
   
-.container{background:#D3D3D3; border-radius: 10px; width: 40%; height: 40%;}
+  .p{color:#fff;font-size:28px;}
+.container{background:#D3D3D3; border-radius: 10px; width: 40%; height: 40%; margin-top:95px;}
 .login-sec{padding: 50px 30px; position:relative;}
 .login-sec h2{margin-bottom:30px; font-weight:800; font-size:30px; color: #0069c0;}
 .login-sec h2:after{content:" "; width:100px; height:5px; background:#6ec6ff; display:block; margin-top:20px; border-radius:3px; margin-left:auto;margin-right:auto}
@@ -24,3 +25,10 @@
     font-size: 15px;
     line-height: 22px;
 }
+
+.background-image-container {
+    background-image: url("../pics/ApteanBG.png");
+    background-size: auto;
+    background-position: center;
+    min-height: 100vh;
+  }

@@ -190,17 +190,17 @@ export default function LoginPage() {
     }
 
     return (
-        <div className={`background-image-container ${bg.bgClass}`}>
+        <div className="background-image-container" >
             <NavBar isLoggedIn={isLoggedIn} />
             
             <section className="login-block">
                 <div className="login-content">
-                    <p>Register with Cab & Dine!! Experience a new era of convenience.</p>
+                    {/* <p className="p">Register with Cab & Dine!! Experience a new era of convenience!</p> */}
                 </div>
                 <div className="container">
                     <div className="row ">
                         <div className="col login-sec">
-                            <h2 className="text-center">Login Now</h2>
+                            <h2 className="text-center">Aptean Cab and Dinner Booking System</h2>
                             <form onSubmit={handleSubmit} className="login-form" action="">
                                 <div className="form-group">
                                     <label htmlFor="exampleInputEmail1" className="text-uppercase">Email</label>
