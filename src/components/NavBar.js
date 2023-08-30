@@ -22,7 +22,7 @@ export default function NavBar(props){
                 <ul className="navbar-nav mr-auto"  >
                     {!isAuthenticated()?<li><Link className="nav-link" to="/login" >Login</Link></li>:null}
                     {/* {isAuthenticated() && role === 'admin' ? <li className="nav-item"><Link className="nav-link" to="#">View Details</Link></li>:null} */}
-                    {isAuthenticated() && role === 'admin' ? <li className="nav-item"><Link className="nav-link" to="/admin/register">Register</Link></li>:null}
+                    {/* {isAuthenticated() && role === 'admin' ? <li className="nav-item"><Link className="nav-link" to="/register">Register</Link></li>:null} */}
                     {/* {isAuthenticated() && role === 'manager' ? <li className="nav-item"><Link className="nav-link" to="#">Reportees Details</Link></li>:null} */}
                     {isAuthenticated() && role === 'manager' ? <li className="nav-item"><Link className="nav-link" to={`/employee/${managerId}`}>Book a Cab</Link></li>:null}
                     {/* {isAuthenticated() && role === 'employee' ? <li className="nav-item"><Link className="nav-link" to="/employee">Book a Cab</Link></li>:null} */}

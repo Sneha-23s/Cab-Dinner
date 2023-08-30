@@ -21,6 +21,8 @@ export default function RegisterPage() {
     teamName: { required: false, invalidCharacters: false },
     managerName: { required: false, invalidCharacters: false },
     role: { required: false },
+    address: { required: false },
+    contactNumber: { required: false },
     custom_error: null,
   };
 
@@ -32,14 +34,24 @@ export default function RegisterPage() {
     teamName: '',
     managerName: '',
     role: '',
+    address: '',
+    contactNumber: ''
   });
 
   const [errors, setErrors] = useState(initialStateErrors);
   const [loading, setLoading] = useState(false);
   const [touchedEmail, setTouchedEmail] = useState(false);
 
+  // const handlAddressChange = (event) => {
+  //   setAddress(event.target.value);
+  // };
+
+  // const handleContactNumberChange = (event) => {
+  //   setContactNumber(event.target.value);
+  // };
+
   const navigate = useNavigate();
-  
+
   const handleSubmit = (event) => {
     event.preventDefault();
     let hasError = false;
@@ -102,6 +114,25 @@ export default function RegisterPage() {
       hasError = true;
     }
 
+    // Validate address
+    if (!inputs.address) {
+      newErrors.address.required = true;
+      hasError = true;
+    }
+
+
+    // Validate contactNo to allow only numbers and 10 digits
+    if (!inputs.contactNumber) {
+      newErrors.contactNumber.required = true;
+      hasError = true;
+    } else if (!/^\d*$/.test(inputs.contactNumber)) {
+      newErrors.contactNumber.invalidNumber = true;
+      hasError = true;
+    } else if (!/^\d{10}$/.test(inputs.contactNumber)) {
+      newErrors.contactNumber.invalidLength = true;
+      hasError = true;
+    }
+
     setErrors(newErrors);
 
     if (!hasError) {
@@ -119,23 +150,13 @@ export default function RegisterPage() {
             teamName: inputs.teamName,
             managerName: inputs.managerName,
             role: inputs.role,
-            // address: inputs.address,
-            // contactNo: inputs.contactNo,
+            address: inputs.address,
+            contactNumber: inputs.contactNumber,
           })
             .then(() => {
               console.log('User data saved successfully!');
               alert("User is registered successfully!");
-              setInputs({  // Clear all the fields after successful registration
-                email: '',
-                password: '',
-                name: '',
-                userId: '',
-                teamName: '',
-                managerName: '',
-                role: '',
-                // address: '',
-                // contactNumber: '',
-              });
+              navigate('/login')
             });
         })
         .catch((err) => {
@@ -170,7 +191,7 @@ export default function RegisterPage() {
   }
   return (
     <div>
-      <NavBar logoutUser={logoutUser}/>
+      <NavBar logoutUser={logoutUser} />
       <section className="register-block">
         <div className="container">
           <div className="row">
@@ -236,7 +257,16 @@ export default function RegisterPage() {
                   <label htmlFor="teamName" className="text-uppercase">
                     Team Name
                   </label>
-                  <input type="text" className="form-control" onChange={handleInput} name="teamName" id="teamName" />
+                  <select className="form-control" onChange={handleInput} name="teamName" value={inputs.teamName}>
+                    <option value=""></option>
+                    <option value="admin">F&B</option>
+                    <option value="manager">R&D</option>
+                    <option value="employee">SRE</option>
+                    <option value="employee">Customer Support Team</option>
+                    <option value="employee">Customer success Team</option>
+                    <option value="employee">CEP</option>
+                  </select>
+                  {/* <input type="text" className="form-control" onChange={handleInput} name="teamName" id="teamName" /> */}
                   {errors.teamName.required ? (
                     <span className="text-danger">Team Name is required.</span>
                   ) : null}
@@ -246,7 +276,15 @@ export default function RegisterPage() {
                   <label htmlFor="managerName" className="text-uppercase">
                     Manager Name
                   </label>
-                  <input type="text" className="form-control" onChange={handleInput} name="managerName" id="managerName" />
+                  <select className="form-control" onChange={handleInput} name="managerName" value={inputs.managerName}>
+                    <option value=""></option>
+                    <option value="admin">Bhuvaneshkumar Alagar</option>
+                    <option value="manager">Rajesh Agrawal</option>
+                    <option value="employee">Kalaimahal Shanmuganatha</option>
+                    <option value="employee">Rajasekar Arumugam</option>
+                    <option value="employee">Sachin Kumar</option>
+                  </select>
+                  {/* <input type="text" className="form-control" onChange={handleInput} name="managerName" id="managerName" /> */}
                   {errors.managerName.required ? (
                     <span className="text-danger">Manager Name is required.</span>
                   ) : errors.managerName.invalidCharacters ? (
@@ -259,8 +297,8 @@ export default function RegisterPage() {
                     Role
                   </label>
                   <select className="form-control" onChange={handleInput} name="role" value={inputs.role}>
-                    <option value="">Select Role</option>
-                    <option value="admin">Admin</option>
+                    <option value=""></option>
+                    {/* <option value="admin">Admin</option> */}
                     <option value="manager">Manager</option>
                     <option value="employee">Employee</option>
                   </select>
@@ -269,29 +307,29 @@ export default function RegisterPage() {
                   ) : null}
                 </div>
 
-                {/* <div className="form-group">
-                  <label htmlFor="address" className="text-uppercase">
+                <div className="form-group">
+                  <label htmlFor="address" className="text-uppercase" >
                     Address
                   </label>
-                  <input type="text" className="form-control" onChange={handleInput} name="address" id="address" />
+                  <input type="text" className="form-control" onChange={handleInput} name="address" id="" />
                   {errors.address.required ? (
                     <span className="text-danger">Address is required.</span>
                   ) : null}
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="contactNo" className="text-uppercase">
-                    Contact No
-                  </label>
-                  <input type="text" className="form-control" onChange={handleInput} name="contactNo" id="contactNo" />
-                  {errors.contactNo.required ? (
+                  <label htmlFor="contactNumber" className="text-uppercase" >
+                    Contact Number
+                    </label>
+                  <input type="text" className="form-control" onChange={handleInput} name="contactNumber" id=""/>
+                  {errors.contactNumber.required ? (
                     <span className="text-danger">Contact No is required.</span>
-                  ) : errors.contactNo.invalidNumber ? (
+                  ) : errors.contactNumber.invalidNumber ? (
                     <span className="text-danger">Contact No should contain only numbers.</span>
-                  ) : errors.contactNo.invalidLength ? (
+                  ) : errors.contactNumber.invalidLength ? (
                     <span className="text-danger">Contact No should contain exactly 10 digits.</span>
                   ) : null}
-                </div> */}
+                </div>
 
                 <div className="form-group">
                   <span className="text-danger">
@@ -309,7 +347,7 @@ export default function RegisterPage() {
 
                 <div className="clearfix"></div>
 
-              
+
               </form>
             </div>
           </div>

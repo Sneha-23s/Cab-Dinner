@@ -6,8 +6,12 @@ import { storeUserData } from '../services/Storage';
 import { isAuthenticated } from '../services/Auth';
 import { Link, Navigate } from 'react-router-dom';
 import NavBar from '../components/NavBar';
+import bg from './bg.css';
 import { fireDb } from '../firebase/firebase';
 import { ref, get, onValue } from 'firebase/database';
+import { logout } from "../services/Auth"
+import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 
 export default function LoginPage() {
@@ -30,7 +34,10 @@ export default function LoginPage() {
 
 
     const [user, setuser] = useState({});
-
+    const navigate = useNavigate();
+      
+  const location = useLocation();
+ 
 
     // Function to fetch userId based on email from Firebase
     // import { ref, get } from 'firebase/database';
@@ -67,6 +74,16 @@ export default function LoginPage() {
             setuser(userData || {});
         });
     }, [])
+
+    useEffect(() => {
+        // Check if the current URL is "/login"
+        if (location.pathname === "/login") {
+          // Log out the user and redirect to the login page
+          logout();
+          navigate('/login');
+        }
+      }, [location.pathname, navigate]);
+      console.log(location.pathname);
 
     const [inputs, setInputs] = useState({
         email: "",
@@ -127,7 +144,7 @@ export default function LoginPage() {
                                 })
                                 .catch((err) => {
                                     if (err.code === "ERR_BAD_REQUEST") {
-                                        setErrors({ ...newErrors, custom_error: "Invalid Credentials." });
+                                        setErrors({ ...newErrors, custom_error: "Invalid Credentials. " });
                                     }
                                 });
                         }
@@ -146,82 +163,6 @@ export default function LoginPage() {
         }
     };
     
-    // const handleSubmit = (event) => {
-    //     event.preventDefault();
-    //     let newErrors = { ...initialStateErrors }; // Copy initial errors to avoid mutation
-    //     let hasError = false;
-
-    //     if (inputs.email === "") {
-    //         newErrors.email.required = true;
-    //         hasError = true;
-    //     }
-    //     if (inputs.password === "") {
-    //         newErrors.password.required = true;
-    //         hasError = true;
-    //     }
-    //     if (selectedOption === "") {
-    //         newErrors.role.required = true;
-    //         hasError = true;
-    //     }
-
-    //     if (!hasError) {
-    //         setLoading(true);
-
-    //         fetchUserDataByEmail(inputs.email)
-    //             .then((userData) => {
-    //                 if (!userData) {
-    //                     setErrors({
-    //                         ...newErrors,
-    //                         custom_error: "User not found with the provided email.",
-    //                     });
-    //                     setLoading(false);
-    //                     return;
-    //                 }
-
-    //                 setInputs({ ...inputs, userId: userData.userId, role: userData.role });
-
-    //                 if (userData.role !== selectedOption) {
-    //                     setHasPermission(false);
-    //                     setErrors({
-    //                         ...newErrors,
-    //                         custom_error: "You do not have permission for this role.",
-    //                     });
-    //                 }
-    //                 else {
-    //                     setHasPermission(true);
-    //                     setErrors({
-    //                         ...newErrors,
-    //                         custom_error: null,
-    //                     });
-
-    //                     LoginApi(inputs)
-    //                         .then((response) => {
-    //                             setDisplayName(response.data.displayName);
-    //                             storeUserData(response.data.idToken);
-    //                             setIsLoggedIn(true);
-    //                         })
-    //                         .catch((err) => {
-    //                             if (err.code === "ERR_BAD_REQUEST") {
-    //                                 setErrors({ ...newErrors, custom_error: "Invalid Credentials." });
-    //                             }
-    //                         })
-    //                         .finally(() => {
-    //                             setLoading(false);
-    //                         });
-    //                 }
-    //             })
-    //             .catch((error) => {
-    //                 console.error("Error fetching user data", error);
-    //                 setLoading(false);
-    //             });
-    //     }
-    //     else {
-    //         setLoading(false);
-    //         setErrors({ ...newErrors }); // Update errors if there are any
-    //     }
-    // };
-
-
     const handleInput = (event) => {
         setInputs({ ...inputs, [event.target.name]: event.target.value })
     }
@@ -247,14 +188,11 @@ export default function LoginPage() {
             />;
         }
     }
-    //if (isAuthenticated()) {
-    //redirect user to dashboard
-    //  return <Navigate to="/dashboard" />
-    //}
 
     return (
-        <div>
+        <div className={`background-image-container ${bg.bgClass}`}>
             <NavBar isLoggedIn={isLoggedIn} />
+            
             <section className="login-block">
                 <div className="login-content">
                     <p>Register with Cab & Dine!! Experience a new era of convenience.</p>
@@ -311,7 +249,11 @@ export default function LoginPage() {
                                             : null
                                         }
                                     </span>
+                                    
                                     <input type="submit" className="btn btn-login float-right" disabled={loading} value="Login" />
+                                    <Link to={`/register`}>
+                                    <input type="button" className="btn btn-login float-right" disabled={loading} value="Register" />
+                                    </Link>
                                 </div>
                                 <div className="clearfix"></div>
                                 <div className="form-group">
@@ -326,3 +268,4 @@ export default function LoginPage() {
 
     )
 }
+<button className='btn btn-edit'>Edit</button>

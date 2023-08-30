@@ -1,0 +1,8 @@
+
+.background-image-container {
+    background-image: url("../pics/ApteanBG.png");
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+  }
+  

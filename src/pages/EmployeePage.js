@@ -11,6 +11,7 @@ import { ref, set } from 'firebase/database';
 import { useNavigate, useParams } from 'react-router-dom';
 import { onValue } from 'firebase/database';
 import { Link } from 'react-router-dom';
+import bg from './bg.css';
 import { useLocation } from 'react-router-dom';
 
 const EmployeePage = () => {
@@ -24,29 +25,36 @@ const EmployeePage = () => {
   const [existuserDetails, setExistuserDetails] = useState({});
   const [nextweekuserDetails, setNextweekuserDetails] = useState({});
 
-  useEffect(() => {
-    const handlePopstate = () => {
-      // Logout the user when the popstate event occurs (browser back/forward buttons)
-      logout();
-      window.location.href = '/login'; // Redirect to login page
-    };
+   // info in users node
+   const [useraddno, setuseraddno] = useState({});
 
-    // Add the event listener for the popstate event
-    window.addEventListener('popstate', handlePopstate);
+  // useEffect(() => {
+  //   const handlePopstate = () => {
+  //     // Logout the user when the popstate event occurs (browser back/forward buttons)
+  //     logout();
+  //     window.location.href = '/login'; // Redirect to login page
+  //   };
 
-    // Clean up the event listener when the component is unmounted
-    return () => {
-      window.removeEventListener('popstate', handlePopstate);
-    };
-  }, []);
+  //   // Add the event listener for the popstate event
+  //   window.addEventListener('popstate', handlePopstate);
+
+  //   // Clean up the event listener when the component is unmounted
+  //   return () => {
+  //     window.removeEventListener('popstate', handlePopstate);
+  //   };
+  // }, []);
   
+  const location = useLocation();
+ 
+  console.log(location.pathname);
   useEffect(() => {
-    const startCountRef1 = ref(fireDb, 'Users/');
+    const startCountRef1 = ref(fireDb, `Users/${id}`);
     onValue(startCountRef1, (snapshot) => {
       const userData = snapshot.val();
-      setUser(userData || {});
+      setuseraddno(userData || {});
     });
-  }, [])
+  }, [id])
+  console.log(useraddno);
 
   useEffect(() => {
     if (id) {
@@ -102,8 +110,8 @@ const EmployeePage = () => {
   const [cabWorkingDays, setCabWorkingDays] = useState([]);
   const [isDinnerRequired, setIsDinnerRequired] = useState(false);
   const [dinnerWorkingDays, setDinnerWorkingDays] = useState([]);
-  const [address, setAddress] = useState('');
-  const [contactNumber, setContactNumber] = useState('');
+  const [address, setAddress] = useState(useraddno.address || "");
+  const [contactNumber, setContactNumber] = useState(useraddno.contactNumber || "");
 
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
@@ -138,10 +146,18 @@ const EmployeePage = () => {
       setCabWorkingDays(existuserDetails.cabWorkingDays || []);
       setIsDinnerRequired(existuserDetails.isDinnerRequired || '');
       setDinnerWorkingDays(existuserDetails.dinnerWorkingDays || []);
-      setAddress(existuserDetails.address || '');
-      setContactNumber(existuserDetails.contactNumber || '');
+      setAddress(useraddno.address || '');
+      setContactNumber(useraddno.contactNumber || '');
     }
   }, [existuserDetails]);
+
+  useEffect(() => {
+    if (useraddno) {
+
+      setAddress(useraddno.address || '');
+      setContactNumber(useraddno.contactNumber || '');
+    }
+  }, [useraddno]);
 
   const handleShiftTimingsChange = (event) => {
     setShiftTimings(event.target.value);
@@ -187,8 +203,8 @@ const EmployeePage = () => {
     setCabWorkingDays(nextweekuserDetails.cabWorkingDays || []);
     setIsDinnerRequired(nextweekuserDetails.isDinnerRequired || '');
     setDinnerWorkingDays(nextweekuserDetails.dinnerWorkingDays || []);
-    setAddress(nextweekuserDetails.address || '');
-    setContactNumber(nextweekuserDetails.contactNumber || '');
+    setAddress(useraddno.address || '');
+    setContactNumber(useraddno.contactNumber || '');
     navigate(`/employee/${id}-edit/nextweek`);
   };
 
@@ -484,6 +500,8 @@ if (window.location.pathname === `/employee/${id}-edit` || `/employee/${id}`) {
     }
   }, [])
 
+
+
   const logoutUser = () => {
     logout();
     navigate('/login')
@@ -491,7 +509,7 @@ if (window.location.pathname === `/employee/${id}-edit` || `/employee/${id}`) {
 
   if (hasSubmitted) {
     return (
-      <div>
+      <div className={`background-image-container ${bg.bgClass}`}>
         <NavBar role="employee" logoutUser={logoutUser} />
         <div className="employee-page">
           <div>
@@ -530,9 +548,7 @@ if (window.location.pathname === `/employee/${id}-edit` || `/employee/${id}`) {
               >
                 <option value="">Select Shift Timings</option>
                 <option value="6 AM - 3 PM">6 AM to 3 PM</option>
-                <option value="9 AM - 6 PM">9 AM to 6 PM</option>
                 <option value="1 PM - 10 PM">1 PM to 10 PM</option>
-                <option value="2 PM - 11 PM">2 PM to 11 PM</option>
                 <option value="5 PM - 2 PM">5 PM to 2 AM</option>
                 <option value="9 PM - 6 PM">9 PM to 6 AM</option>
               </select>
@@ -678,6 +694,7 @@ if (window.location.pathname === `/employee/${id}-edit` || `/employee/${id}`) {
               <label htmlFor="contactNumber">Contact Number</label>
               <input
                 type="text"
+                isDateEditable="true"
                 className="form-control"
                 id="contactNumber"
                 value={contactNumber}

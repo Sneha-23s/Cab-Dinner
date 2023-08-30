@@ -35,7 +35,6 @@ export const DeleteApi = (id) => {
   if (!idToken) {
     console.log("User is not authenticated.");
   }
-
     const requestData = {
       idToken: idToken,
       localId: id
@@ -43,15 +42,7 @@ export const DeleteApi = (id) => {
     return axios.post(DELETE_URL, requestData);
   };
 
-  const sendEmailValidationRequest = async (email) => {
-    try {
-        const response = await fetch(MAILURL + '&email=' + email);
-        const data = await response.json();
-        console.log(data);
-    } catch (error) {
-        throw error;
-    }
-}
+
   
   
   

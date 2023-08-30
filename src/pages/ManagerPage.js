@@ -28,21 +28,21 @@ export default function ManagerPage() {
 
   const { id } = useParams();
 
-  useEffect(() => {
-    const handlePopstate = () => {
-      // Logout the user when the popstate event occurs (browser back/forward buttons)
-      logout();
-      window.location.href = '/login'; // Redirect to login page
-    };
+  // useEffect(() => {
+  //   const handlePopstate = () => {
+  //     // Logout the user when the popstate event occurs (browser back/forward buttons)
+  //     logout();
+  //     window.location.href = '/login'; // Redirect to login page
+  //   };
 
-    // Add the event listener for the popstate event
-    window.addEventListener('popstate', handlePopstate);
+  //   // Add the event listener for the popstate event
+  //   window.addEventListener('popstate', handlePopstate);
 
-    // Clean up the event listener when the component is unmounted
-    return () => {
-      window.removeEventListener('popstate', handlePopstate);
-    };
-  }, []);
+  //   // Clean up the event listener when the component is unmounted
+  //   return () => {
+  //     window.removeEventListener('popstate', handlePopstate);
+  //   };
+  // }, []);
 
   
   useEffect(() => {
