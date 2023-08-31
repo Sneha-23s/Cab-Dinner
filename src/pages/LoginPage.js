@@ -12,6 +12,7 @@ import { ref, get, onValue } from 'firebase/database';
 import { logout } from "../services/Auth"
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import { PasswordResetApi } from '../services/Api';
 
 
 export default function LoginPage() {
@@ -91,6 +92,26 @@ export default function LoginPage() {
         role: "",
         userId: ""
     })
+
+    const handlePasswordReset = (email) => {
+        PasswordResetApi(email)
+          .then((response) => {
+            alert("Password reset email sent successfully");
+            console.log(email);
+            // Handle success, show a message to the user, etc.
+          })
+          .catch((error) => {
+            alert("The provided email is not registerd");
+            console.error("Error sending password reset email", error);
+            // Handle error, show an error message to the user, etc.
+          });
+      };
+
+    const handleForgetPasswordClick = (event) => {
+        event.preventDefault();
+        const email = inputs.email; // Replace with the user's email
+        handlePasswordReset(email);
+      };
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -257,7 +278,7 @@ export default function LoginPage() {
                                 </div>
                                 <div className="clearfix"></div>
                                 <div className="form-group">
-                                    <Link to="/#"></Link>
+                                    <Link to="/#" onClick={handleForgetPasswordClick}>Forget password?</Link>
                                 </div>
                             </form>
                         </div>

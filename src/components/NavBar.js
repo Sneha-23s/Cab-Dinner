@@ -14,7 +14,7 @@ export default function NavBar(props){
     return(
         <nav className="navbar navbar-expand-md navbar-dark bg-dark">
             <img src={ApteanLogo} alt="Company Logo" className="company-logo" />
-            <a className="navbar-brand" >Cab & Dine</a>
+            <a className="navbar-brand" >   Cab & Dine Reservation</a>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
             </button>

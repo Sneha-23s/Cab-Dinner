@@ -8,6 +8,7 @@ const LOGIN_URL = `/accounts:signInWithPassword?key=${API_KEY}`;
 const USER_DETAILS_URL = `/accounts:lookup?key=${API_KEY}`;
 const DELETE_URL=`accounts:delete?key=${API_KEY}`;
 const MAILURL = `https://emailvalidation.abstractapi.com/v1/?api_key=AIzaSyBZG49ZLVo5MIv4qOB_WD7QM3D-BS_hzxg`;
+const PASSWORD_RESET_URL = `/accounts:sendOobCode?key=${API_KEY}`
 
 export const RegisterApi = (inputs) => {
     const data = {
@@ -42,8 +43,14 @@ export const DeleteApi = (id) => {
     return axios.post(DELETE_URL, requestData);
   };
 
-
   
+  export const PasswordResetApi = (email) => {
+    const data = {
+      email: email,
+      requestType: 'PASSWORD_RESET',
+    };
+    return axios.post(PASSWORD_RESET_URL, data);
+  }
   
   
   

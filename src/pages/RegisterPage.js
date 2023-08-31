@@ -155,7 +155,7 @@ export default function RegisterPage() {
             contactNumber: inputs.contactNumber,
           })
             .then(() => {
-              console.log('User data saved successfully!');
+              // console.log('User data saved successfully!');
               alert("User is registered successfully!");
               navigate('/login')
             });
@@ -312,7 +312,15 @@ export default function RegisterPage() {
                   <label htmlFor="address" className="text-uppercase" >
                     Address
                   </label>
-                  <input type="text" className="form-control" onChange={handleInput} name="address" id="" />
+                  <div className="rich-text-box">
+                    <textarea
+                      className="form-control"
+                      onChange={handleInput}
+                      // value={address}
+                      name="address"
+                    />
+                  </div>
+                  {/* <input type="text" className="form-control" onChange={handleInput} name="address" id="" /> */}
                   {errors.address.required ? (
                     <span className="text-danger">Address is required.</span>
                   ) : null}
@@ -321,8 +329,8 @@ export default function RegisterPage() {
                 <div className="form-group">
                   <label htmlFor="contactNumber" className="text-uppercase" >
                     Contact Number
-                    </label>
-                  <input type="text" className="form-control" onChange={handleInput} name="contactNumber" id=""/>
+                  </label>
+                  <input type="text" className="form-control" onChange={handleInput} name="contactNumber" id="" />
                   {errors.contactNumber.required ? (
                     <span className="text-danger">Contact No is required.</span>
                   ) : errors.contactNumber.invalidNumber ? (

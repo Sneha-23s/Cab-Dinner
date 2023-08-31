@@ -429,6 +429,7 @@ const EmployeePage = () => {
             console.log('Employee details saved successfully!');
             setLoading(false);
             alert("Your response is saved successfully!");
+            // navigate(`/employee/${id}-edit/currentweek`);
 
           })
           .catch((error) => {
@@ -536,7 +537,8 @@ const EmployeePage = () => {
 
         <div className="employee-page" >
           <div className="col employee-sec">
-            <h2 className='text-center'>Form of {useraddno.name}</h2>
+            {/* <h2 className='text-center'>Hi {useraddno.name}({useraddno.userId}) ,</h2> */}
+            <h2 className='text-center'>Hi {useraddno.userId} ,</h2>
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label htmlFor="shiftTimings">Shift Timings</label>
@@ -680,13 +682,15 @@ const EmployeePage = () => {
               )}
               <div className="form-group">
                 <label htmlFor="address">Address</label>
-                <input
-                  type="text"
+                <div className="rich-text-box">
+                    <textarea
                   className="form-control"
                   id="address"
                   value={address}
                   onChange={handlAddressChange}
                 />
+                </div>
+               
                 {errors.address.required ? (
                   <span className="text-danger">Address is required.</span>
                 ) : null}

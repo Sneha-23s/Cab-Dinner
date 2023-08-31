@@ -1,38 +1,38 @@
 .employee-page {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f2f2f2;
-    border-radius: 5px;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  input[type='text'],
-  select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .checkbox-group {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .checkbox-group label {
-    margin-bottom: 5px;
-  }
-  
-  /* button[type='submit'] {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type='text'],
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkbox-group label {
+  margin-bottom: 5px;
+}
+
+/* button[type='submit'] {
     display: block;
     width: 100%;
     padding: 10px;
@@ -46,17 +46,17 @@
   button[type='submit']:hover {
     background-color: #45a049;
   } */
-  
-  .response-container {
-    text-align: center;
-    margin-top: 50px;
-  }
-  
-  .button-container {
-    margin-top: 20px;
-  }
 
-  /* .btn {
+.response-container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.button-container {
+  margin-top: 20px;
+}
+
+/* .btn {
     padding: 10px 20px;
     font-size: 16px;
     border: none;
@@ -66,20 +66,45 @@
     color: white;
     margin-right: 10px;
   } */
-  
-  /* .btn:hover {
+
+/* .btn:hover {
     background-color: #0056b3;
   } */
-  
-  .next-week-button {
-    text-decoration: none; /* Remove default link underline */
-  }
 
-  .employee-sec{padding: 50px 30px; position:relative;}
-.employee-sec h2{margin-bottom:30px; font-weight:800; font-size:30px; color: #0069c0;}
-.employee-sec h2:after{content:" "; width:100px; height:5px; background:#6ec6ff; display:block; margin-top:20px; border-radius:3px; margin-left:auto;margin-right:auto}
+.next-week-button {
+  text-decoration: none;
+  /* Remove default link underline */
+}
 
-.btn-submit{background: #0069c0; color:#fff; font-weight:600;
+.employee-sec {
+  padding: 50px 30px;
+  position: relative;
+}
+
+/* .employee-sec h2{margin-bottom:30px; font-weight:800; font-size:30px; color: #0069c0; text-align: left;margin-left:0;margin-right:0}*/
+/* .employee-sec h2:after{content:" "; width:100px; height:5px; background:#6ec6ff; display:block; margin-top:20px; border-radius:3px; margin-left:auto;margin-right:auto} */
+
+.btn-submit {
+  background: #0069c0;
+  color: #fff;
+  font-weight: 600;
   display: block;
   width: 100%;
-  padding: 10px;}
+  padding: 10px;
+}
+
+.employee-sec h2 {
+  margin-bottom: 30px;
+  font-weight: 800;
+  font-size: 25px;
+  color: #0069c0;
+  text-align: left;
+  margin-left: 0;
+  margin-right: 0;
+  display: inline-block;
+  display: block;
+  /* Change display to block to create line breaks */
+  width: fit-content;
+  /* Adjust width to fit the content */
+  white-space: nowrap;
+}
