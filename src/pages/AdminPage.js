@@ -302,6 +302,7 @@ export default function AdminPage() {
             <colgroup>
               <col style={{ width: "50px" }} />
               <col style={{ width: "100px" }} />
+              <col style={{ width: "50px" }} />
               <col style={{ width: "100px" }} />
               <col style={{ width: "100px" }} />
               <col style={{ width: "60px" }} />
@@ -322,6 +323,7 @@ export default function AdminPage() {
               <tr>
                 <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>No</th>
                 <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Name</th>
+                <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>User Id</th>
                 <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Manager</th>
                 <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Product Line</th>
                 <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Shift Timings</th>
@@ -380,6 +382,7 @@ export default function AdminPage() {
                     <tr key={id}>
                       <th scope="row">{currentSerialNo}</th>
                       <td>{user[id].name}</td>
+                      <td>{user[id].userId}</td>
                       <td>{user[id].managerName}</td>
                       <td>{user[id].teamName}</td>
                       <td>{showNextWeek ? nextdata[id]?.shiftTimings ?? "-" : data[id]?.shiftTimings ?? "-"}</td>

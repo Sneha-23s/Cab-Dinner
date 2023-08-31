@@ -143,6 +143,7 @@ export default function ManagerPage() {
             <colgroup>
               <col style={{ width: "50px" }} />
               <col style={{ width: "100px" }} />
+              <col style={{ width: "50px" }} />
               <col style={{ width: "100px" }} />
               <col style={{ width: "100px" }} />
               <col style={{ width: "60px" }} />
@@ -160,6 +161,7 @@ export default function ManagerPage() {
               <tr>
                 <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>No</th>
                 <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Name</th>
+                <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>User Id</th>
                 <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Manager</th>
                 <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Product Line</th>
                 <th style={{ textAlign: "center", verticalAlign: "middle" }} rowSpan={2}>Shift Timings</th>
@@ -201,6 +203,7 @@ export default function ManagerPage() {
                       <th scope="row">{currentSerialNo}</th>
 
                       <td>{user[id].name}</td>
+                      <td>{user[id].userId}</td>
                       <td>{user[id].managerName}</td>
                       <td>{user[id].teamName}</td>
                       <td>{data[id]?.shiftTimings ?? "-"}</td>

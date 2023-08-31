@@ -428,9 +428,9 @@ const EmployeePage = () => {
           .then(() => {
             console.log('Employee details saved successfully!');
             setLoading(false);
+            // navigate(`/employee/${id}`);
             alert("Your response is saved successfully!");
-            // navigate(`/employee/${id}-edit/currentweek`);
-
+            window.history.back();
           })
           .catch((error) => {
             console.error('Error saving employee details:', error);
@@ -457,7 +457,7 @@ const EmployeePage = () => {
             console.log('Employee details saved successfully!');
             setLoading(false);
             alert("Your response is saved successfully!");
-
+            window.history.back();
           })
           .catch((error) => {
             console.error('Error saving employee details:', error);
@@ -683,14 +683,8 @@ const EmployeePage = () => {
               <div className="form-group">
                 <label htmlFor="address">Address</label>
                 <div className="rich-text-box">
-                    <textarea
-                  className="form-control"
-                  id="address"
-                  value={address}
-                  onChange={handlAddressChange}
-                />
+                  <textarea className="form-control" id="address" value={address} onChange={handlAddressChange} />
                 </div>
-               
                 {errors.address.required ? (
                   <span className="text-danger">Address is required.</span>
                 ) : null}
@@ -698,13 +692,7 @@ const EmployeePage = () => {
               <div className="form-group">
                 <label htmlFor="contactNumber">Contact Number</label>
                 <input
-                  type="text"
-                  isDateEditable="true"
-                  className="form-control"
-                  id="contactNumber"
-                  value={contactNumber}
-                  onChange={handleContactNumberChange}
-                />
+                  type="text" isDateEditable="true" className="form-control" id="contactNumber" value={contactNumber} onChange={handleContactNumberChange} />
                 {errors.contactNumber.required ? (
                   <span className="text-danger">Contact No is required.</span>
                 ) : errors.contactNumber.invalidNumber ? (
@@ -721,7 +709,7 @@ const EmployeePage = () => {
                 </div>
               ) : null}
                 <button type="submit" className="btn btn-submit float-center">
-                {/* "btn btn-login float-right" */}
+                  {/* "btn btn-login float-right" */}
                   {buttonText}
                 </button>
               </div>

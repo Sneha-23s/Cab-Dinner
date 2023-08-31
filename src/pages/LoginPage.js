@@ -84,7 +84,7 @@ export default function LoginPage() {
           navigate('/login');
         }
       }, [location.pathname, navigate]);
-      console.log(location.pathname);
+    //   console.log(location.pathname);
 
     const [inputs, setInputs] = useState({
         email: "",
