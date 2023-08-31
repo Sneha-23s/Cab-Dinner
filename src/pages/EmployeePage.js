@@ -300,15 +300,20 @@ const EmployeePage = () => {
     return workingDays;
   };
 
-  // Check if you are on the desired page where you want the refresh behavior
-  if (window.location.pathname === `/employee/${id}-edit` || `/employee/${id}`) {
-    // Add an event listener to the popstate event (triggered when the user navigates back or forward)
-    window.onpopstate = function (event) {
-      console.log('popstate event triggered'); // Add this line to log the event
-      // Reload the page to ensure the content is up-to-date
+  useEffect(() => {
+    const handlePopstate = () => {
+      console.log('popstate event triggered');
       window.location.reload();
     };
-  }
+
+    if (window.location.pathname === `/employee/${id}-edit` || `/employee/${id}`) {
+      window.addEventListener('popstate', handlePopstate);
+
+      return () => {
+        window.removeEventListener('popstate', handlePopstate);
+      };
+    }
+  }, [id]);
 
   // Function to get upcoming week's working days with dates
   const getUpcomingWeekWorkingDaysWithDates = () => {
@@ -430,7 +435,7 @@ const EmployeePage = () => {
             setLoading(false);
             // navigate(`/employee/${id}`);
             alert("Your response is saved successfully!");
-            window.history.back();
+            
           })
           .catch((error) => {
             console.error('Error saving employee details:', error);
@@ -457,7 +462,7 @@ const EmployeePage = () => {
             console.log('Employee details saved successfully!');
             setLoading(false);
             alert("Your response is saved successfully!");
-            window.history.back();
+            // window.history.back();
           })
           .catch((error) => {
             console.error('Error saving employee details:', error);
